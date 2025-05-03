@@ -45,23 +45,23 @@ The web app includes an in-browser terminal emulator so you can still have direc
 
 *Generate fully-undetectable clients with staged payloads, remote imports, and unlimited post-exploitation modules*
 
-1) __Remote Imports__: remotely import third-party packages from the server without writing them 
+1) __Remote Imports__: remotely import third-party packages from the server without writing them
 to the disk or downloading/installing them
 2) __Nothing Written To The Disk__: clients never write anything to the disk - not even temporary files (zero IO
-system calls are made) because remote imports allow arbitrary code to be 
-dynamically loaded into memory and directly imported into the currently running 
+system calls are made) because remote imports allow arbitrary code to be
+dynamically loaded into memory and directly imported into the currently running
 process
 3) __Zero Dependencies (Not Even Python Itself)__: client runs with just the python standard library, remotely imports any non-standard
-packages/modules from the server, and can be compiled with a standalone python 
+packages/modules from the server, and can be compiled with a standalone python
 interpreter into a portable binary executable formatted for any platform/architecture,
 allowing it to run on anything, even when Python itself is missing on the target host
 4) __Add New Features With Just 1 Click__: any python script, module, or package you copy to the `./byob/modules/` directory
-automatically becomes remotely importable & directly usable by every client while 
+automatically becomes remotely importable & directly usable by every client while
 your command & control server is running
 5) __Write Your Own Modules__: a basic module template is provided in `./byob/modules/` directory to make writing
 your own modules a straight-forward, hassle-free process
 6) __Run Unlimited Modules Without Bloating File Size__: use remote imports to add unlimited features without adding a single byte to the
-client's file size 
+client's file size
 7) __Fully Updatable__: each client will periodically check the server for new content available for
 remote import, and will dynamically update its in-memory resources
 if anything has been added/removed
@@ -86,8 +86,8 @@ in the payload stager which is generated along with it
 2) __Packet Sniffer__ (`byob.modules.packetsniffer`): run a packet sniffer on the host network & upload .pcap file
 3) __Escalate Privileges__ (`byob.modules.escalate`): attempt UAC bypass to gain unauthorized administrator privileges
 4) __Port Scanner__ (`byob.modules.portscanner`): scan the local network for other online devices & open ports
-5) __Keylogger__ (`byob.modules.keylogger`): logs the user’s keystrokes & the window name entered
-6) __Screenshot__ (`byob.modules.screenshot`): take a screenshot of current user’s desktop
+5) __Keylogger__ (`byob.modules.keylogger`): logs the user's keystrokes & the window name entered
+6) __Screenshot__ (`byob.modules.screenshot`): take a screenshot of current user's desktop
 7) __Outlook__ (`byob.modules.outlook`): read/search/upload emails from the local Outlook client
 8) __Process Control__ (`byob.modules.process`): list/search/kill/monitor currently running processes on the host
 9) __iCloud__ (`byob.modules.icloud`): check for logged in iCloud account on macOS
@@ -102,7 +102,7 @@ reverse TCP shells which provide direct terminal access to the client host machi
 2) __Persistent SQLite Database__: lightweight database that stores identifying information about client host machines,
 allowing reverse TCP shell sessions to persist through disconnections of arbitrary
 duration and enabling long-term reconnaissance
-3) __Client-Server Architecture__: all python packages/modules installed locally are automatically made available for clients 
+3) __Client-Server Architecture__: all python packages/modules installed locally are automatically made available for clients
 to remotely import without writing them to the disk of the target machines, allowing clients to use modules which require
 packages not installed on the target machines
 
@@ -115,10 +115,36 @@ packages not installed on the target machines
 2) __Security__ (`byob.core.security`): Diffie-Hellman IKE & 3 encryption modes (AES-256-OCB, AES-256-CBC, XOR-128)
 3) __Loaders__ (`byob.core.loaders`): remotely import any package/module/scripts from the server
 4) __Payloads__ (`byob.core.payloads`): reverse TCP shell designed to remotely import dependencies, packages & modules
-5) __Stagers__ (`byob.core.stagers`): generate unique payload stagers to prevent analysis & detection   
+5) __Stagers__ (`byob.core.stagers`): generate unique payload stagers to prevent analysis & detection
 6) __Generators__ (`byob.core.generators`): functions which all dynamically generate code for the client generator
 7) __DAO__ (`byob.core.dao`): handles interaction between command & control server and the SQLite database
 8) __Handler__ (`byob.core.handler`): HTTP POST request handler for remote file uploads to the server
+
+## Tests
+[![tests](https://img.shields.io/badge/byob-tests-blue.svg)](https://github.com/malwaredllc/byob/tree/master/byob/tests)
+
+*Unit tests for core functionality and modules*
+
+1) __Security Tests__: tests for AES encryption/decryption, CBC mode, and Diffie-Hellman key exchange
+2) __Module Tests__: tests for core modules like the port scanner, with proper mocking to avoid actual network connections
+3) __Running Tests__: tests can be run with `make test` or `python -m unittest discover -s byob/tests`
+4) __Coverage Reports__: generate coverage reports with `make coverage` to see test coverage statistics
+
+# Development
+
+## Testing
+To run tests and generate coverage reports:
+
+```bash
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Run tests
+make test
+
+# Run tests with coverage
+make coverage
+```
 
 ________________________________________________________________________________________________
 
@@ -129,3 +155,4 @@ ________________________________________________________________________________
 1) __Remote Import Encryption__ - encryption for data streams of packages/modules being remotely imported (to maintain confidentiality/authenticity/integrity and prevent any remote code execution vulnerabilities arising from deserialization)
 2) __Transport Types__ - add support for more transport types (HTTP/S, DNS, etc.)
 3) __Bug Fixes__ - fix any bugs/issues
+4) __Test Coverage__ - increase test coverage for core modules and web GUI
